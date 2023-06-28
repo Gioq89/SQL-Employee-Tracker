@@ -1,28 +1,28 @@
 INSERT INTO department(id, name)
-VALUES (1, "Management"), 
-       (2, "Legal"), 
-       (3, "Accounting"), 
-       (4, "Engineering"), 
-       (5, "Testing"), 
-       (6, "Design");
+VALUES 
+    (1, "Sales"),
+    (2, "Finance"),
+    (3, "Engineering");
 
 INSERT INTO role(id, title, salary, department_id)
 VALUES 
-    (1, "Manager", 100000, 1),
-    (2, "Engineer", 40000, 1),
-    (3, "Analyst", 80000, 2),
-    (4, "Designer", 60000, 2),
-    (5, "Developer", 75000, 3),
-    (6, "Tester", 30000, 3);
+    (1, "Sales Lead", 100000, 1),
+    (2, "Salesperson", 80000, 1),
+    (3, "Lead Engineer", 150000, 3),
+    (4, "Software Engineer", 120000, 3),
+    (5, "Accountant", 125000, 2),
+    (6, "Legal Team Lead", 250000, 2),
+    (7, "Lawyer", 190000, 2);
 
 INSERT INTO employee(id, first_name, last_name, role_id, manager_id)
 VALUES 
-    (1, "Santiogo", "Dominguez", 1, 0),
-    (2, "Gideon", "Hawthorne", 2, 1),
-    (3, "Marigold", "McGowan", 3, 1),
-    (4, "Evelyn", "Carter", 4, 2),
-    (5, "Charlie", "Blackstaff", 5, 3),
-    (6, "Beatrice", "Quickley", 6, 3);
+    (1, "John", "Doe", 1, NULL),
+    (2, "Mike", "Chan", 2, 1),
+    (3, "Ashley", "Rodriguez", 3, NULL),
+    (4, "Kevin", "Tupik", 4, 3),
+    (5, "Malia", "Brown", 5, NULL),
+    (6, "Sarah", "Lourd", 6, NULL),
+    (7, "Tom", "Allen", 7, 6);
 
 -- Show the tables made
 SELECT * FROM department;
