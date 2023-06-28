@@ -23,3 +23,8 @@ VALUES
     (4, "Evelyn", "Carter", 4, 2),
     (5, "Charlie", "Blackstaff", 5, 3),
     (6, "Beatrice", "Quickley", 6, 3);
+
+-- Show the tables made
+SELECT * FROM department;
+SELECT * FROM role;
+SELECT * FROM employee;    
