@@ -34,7 +34,8 @@ inquirer
     console.log(answers);
     switch (answers.option) {
       case "View All Departments":
-        connection.query("SELECT * FROM department", (error, results) => {
+        const departmentQuery = "SELECT id, name FROM department";
+        connection.query(departmentQuery, (error, results) => {
           if (error) {
             console.error("Error retrieving departments:", error);
           } else {
@@ -44,17 +45,20 @@ inquirer
         });
         break;
       case "View All Roles":
-        connection.query("SELECT * FROM role", (error, results) => {
-          if (error) {
-            console.error("Error retrieving departments:", error);
-          } else {
-            console.table(results);
+        const roleQuery = "SELECT role.id, role.id, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id";
+        connection.query(roleQuery, (error, results) => {
+            if (error) {
+              console.error("Error retrieving departments:", error);
+            } else {
+              console.table(results);
+            }
+            connection.end();
           }
-          connection.end();
-        });
+        );
         break;
       case "View All Employees":
-        connection.query("SELECT * FROM employee", (error, results) => {
+        const employeeQuery = "SELECT employee.id, employee.first_name, employee.last_name, role.title AS job_title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id";
+        connection.query(employeeQuery, (error, results) => {
           if (error) {
             console.error("Error retrieving departments:", error);
           } else {
