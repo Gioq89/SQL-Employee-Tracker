@@ -68,9 +68,27 @@ inquirer
         });
         break;
       case "Add a Department":
-        break;
+        inquirer.prompt([
+          {
+            type: "input",
+            message: "What is the name of the department?",
+            name: "departmentName",
+          },
+        ]).then((answers) => {
+          const departmentName = answers.departmentName;
+          const departmentQuery = "INSERT INTO department (name) VALUES (?)";
+          connection.query(departmentQuery, departmentName, (error, results) => {
+            if (error) {
+              console.error("Error adding department:", error);
+            } else {
+              console.log("Department added successfully!");
+            }
+            connection.end();
+          });
+        });
+          break;
       case "Add a Role":
-        break;
+      break;
       case "Add an Employee":
         break;
       case "Update an Employee Role":
