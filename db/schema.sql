@@ -1,11 +1,18 @@
+SHOW DATABASES;
 DROP DATABASE IF EXISTS orgchart_db; 
 CREATE DATABASE orgchart_db;
-
+                                  
 USE orgchart_db;
 
 CREATE TABLE department(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE manager(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE role(
@@ -19,7 +26,7 @@ CREATE TABLE role(
 );
 
 CREATE TABLE employee(
-    id INT PRIMARY KEY NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INT NULL,
@@ -28,3 +35,5 @@ CREATE TABLE employee(
     REFERENCES role(id)
     ON DELETE SET NULL
 );
+
+SHOW TABLES;

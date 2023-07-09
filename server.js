@@ -27,6 +27,13 @@ inquirer
         "Add a Role",
         "Add an Employee",
         "Update an Employee Role",
+        "Update an Employee Manager",
+        "View Employees by Manager",
+        "View Employees by Department",
+        "Delete a Department",
+        "Delete a Role",
+        "Delete an Employee",
+        "View the Total Utilized Budget of a Department",
       ],
     },
   ])
@@ -60,7 +67,7 @@ inquirer
         const employeeQuery = "SELECT employee.id, employee.first_name, employee.last_name, role.title AS job_title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id";
         connection.query(employeeQuery, (error, results) => {
           if (error) {
-            console.error("Error retrieving departments:", error);
+            console.error("Error retrieving employees:", error);
           } else {
             console.table(results);
           }
@@ -88,12 +95,123 @@ inquirer
         });
           break;
       case "Add a Role":
+        inquirer.prompt([
+          {
+            type: "input",
+            message: "What is the name of the role?",
+            name: "roleName",
+          }, { 
+            type: "input",
+            message: "What is the salary of the role?",
+            name: "roleSalary",
+          }, {
+            type: "input",
+            message: "What is the department ID of the role?",
+            name: "roleDepartmentId",
+          }
+        ]).then((answers) => {
+          const roleName = answers.roleName;
+          const roleSalary = answers.roleSalary;
+          const roleDepartmentId = answers.roleDepartmentId;
+          const roleQuery = "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)";
+          connection.query(roleQuery, [roleName, roleSalary, roleDepartmentId], (error, results) => {
+            if (error) {
+              console.error("Error adding role:", error);
+            } else {
+              console.log("Role added successfully!");
+            }
+            connection.end();
+          });
+        });
       break;
       case "Add an Employee":
+        inquirer.prompt([
+          {
+            type: "input",
+            message: "What is the employee's first name?",
+            name: "employeeFirstName",
+          }, {
+            type: "input",
+            message: "What is the employee's last name?",
+            name: "employeeLastName",
+          }, {
+            type: "input",
+            message: "What is the employee's role ID?",
+            name: "employeeRoleId",
+          }, {
+            type: "input",
+            message: "What is the employee's manager ID?",
+            name: "employeeManagerId",
+          }
+        ]).then((answers) => {
+          const employeeFirstName = answers.employeeFirstName;
+          const employeeLastName = answers.employeeLastName;
+          const employeeRoleId = answers.employeeRoleId;
+          const employeeManagerId = answers.employeeManagerId;
+          const employeeQuery = "INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?, ?)";
+          connection.query(employeeQuery, [null, employeeFirstName, employeeLastName, employeeRoleId, employeeManagerId], (error, results) => {
+            if (error) {
+              console.error("Error adding employee:", error);
+            } else {
+              console.log("Employee added successfully!");
+            }
+            connection.end();
+          });
+        });
         break;
       case "Update an Employee Role":
+        inquirer.prompt([
+          {
+            type: "input",
+            message: "What is the ID of the employee you would like to update?",
+            name: "employeeId",
+          }, {
+            type: "input",
+            message: "What is the new role ID of the employee?",
+            name: "employeeRoleId",
+          }
+        ]).then((answers) => {
+          const employeeId = answers.employeeId;
+          const employeeRoleId = answers.employeeRoleId;
+          const employeeQuery = "UPDATE employee SET role_id = ? WHERE id = ?";
+          connection.query(employeeQuery, [employeeRoleId, employeeId], (error, results) => {
+            if (error) {
+              console.error("Error updating employee:", error);
+            } else {
+              console.log("Employee updated successfully!");
+            }
+            connection.end();
+          });
+        });
         break;
       default:
         console.log("error");
     }
   });
+  break;
+  case "Update Employee Manager":
+    inquirer.prompt([
+        {
+          type: "input",
+          message: "What is the ID of the employee you would like to update?",
+          name: "employeeId",
+        }, {
+          type: "input",
+          message: "What is the new manager ID of the employee?",
+          name: "employeeManagerId",
+        }]).then((answers) => {
+          const employeeId = answers.employeeId;
+          const employeeManagerId = answers.employeeManagerId;
+          const employeeQuery = "UPDATE employee SET manager_id = ? WHERE id = ?";
+          connection.query(employeeQuery, [employeeManagerId, employeeId], (error, results) => {
+            if (error) {
+              console.error("Error updating employee:", error);
+            } else {
+              console.log("Employee updated successfully!");
+            }
+            connection.end();
+          });
+        });
+        break;
+
+

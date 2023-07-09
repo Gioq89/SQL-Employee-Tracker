@@ -4,6 +4,16 @@ VALUES
     (2, "Finance"),
     (3, "Engineering");
 
+INSERT INTO manager(id, first_name, last_name)
+VALUES 
+    (1, "Tom", "Brady"),
+    (2, "Michael", "Jordan"),
+    (3, "Alex", "Rodriguez"),
+    (4, "Kevin", "Hart"),
+    (5, "Jim", "Brown"),
+    (6, "Sarah", "Garcia"),
+    (7, "Tim", "Allen");
+
 INSERT INTO role(id, title, salary, department_id)
 VALUES 
     (1, "Sales Lead", 100000, 1),
@@ -20,11 +30,12 @@ VALUES
     (2, "Mike", "Chan", 2, 1),
     (3, "Ashley", "Rodriguez", 3, NULL),
     (4, "Kevin", "Tupik", 4, 3),
-    (5, "Malia", "Brown", 5, NULL),
-    (6, "Sarah", "Lourd", 6, NULL),
+    (5, "Malia", "Brown", 5, 6),
+    (6, "Sarah", "Lourd", 6, 7),
     (7, "Tom", "Allen", 7, 6);
 
 -- Show the tables made
 SELECT * FROM department;
+SELECT * FROM manager;
 SELECT * FROM role;
 SELECT * FROM employee;    
