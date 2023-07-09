@@ -370,7 +370,30 @@ inquirer
             });
           });
         break;
-
+      case "View the Total Utilized Budget of a Department":
+        inquirer
+          .prompt([
+            {
+              type: "input",
+              message: "Enter the ID of the department:",
+              name: "departmentId",
+            },
+          ])
+          .then((answers) => {
+            const departmentId = answers.departmentId;
+            const query =
+              "SELECT department.name AS department, SUM(role.salary) AS utilized_budget FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id WHERE department.id = ?";
+            connection.query(query, [departmentId], (error, results) => {
+              if (error) {
+                console.error("Error retrieving utilized budget:", error);
+              } else {
+                console.table(results);
+              }
+              connection.end();
+            });
+          });
+        break;
+        
       default:
         console.log("Invalid option selected. Please choose a valid option.");
         connection.end();
