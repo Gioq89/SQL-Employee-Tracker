@@ -258,16 +258,19 @@ inquirer
             );
           });
         break;
-        case "View Employees by Manager":
-          inquirer.prompt([
+      case "View Employees by Manager":
+        inquirer
+          .prompt([
             {
               type: "input",
               message: "Enter the ID of the manager:",
               name: "managerId",
             },
-          ]).then((answers) => {
+          ])
+          .then((answers) => {
             const managerId = answers.managerId;
-            const query = "SELECT employee.id, employee.first_name, employee.last_name, role.title AS job_title, department.name AS department, role.salary FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id WHERE employee.manager_id = ?";
+            const query =
+              "SELECT employee.id, employee.first_name, employee.last_name, role.title AS job_title, department.name AS department, role.salary FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id WHERE employee.manager_id = ?";
             connection.query(query, [managerId], (error, results) => {
               if (error) {
                 console.error("Error retrieving employees:", error);
@@ -278,21 +281,90 @@ inquirer
             });
           });
         break;
-        case "View Employees by Department":
-          inquirer.prompt([
+      case "View Employees by Department":
+        inquirer
+          .prompt([
             {
               type: "input",
               message: "Enter the ID of the department:",
               name: "departmentId",
             },
-          ]).then((answers) => {
+          ])
+          .then((answers) => {
             const departmentId = answers.departmentId;
-            const query = "SELECT employee.id, employee.first_name, employee.last_name, role.title AS job_title, department.name AS department, role.salary FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id WHERE department.id = ?";
+            const query =
+              "SELECT employee.id, employee.first_name, employee.last_name, role.title AS job_title, department.name AS department, role.salary FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id WHERE department.id = ?";
             connection.query(query, [departmentId], (error, results) => {
               if (error) {
                 console.error("Error retrieving employees:", error);
               } else {
                 console.table(results);
+              }
+              connection.end();
+            });
+          });
+        break;
+      case "Delete a Department":
+        inquirer
+          .prompt([
+            {
+              type: "input",
+              message: "Enter the ID of the department you want to delete:",
+              name: "departmentId",
+            },
+          ])
+          .then((answers) => {
+            const departmentId = answers.departmentId;
+            const query = "DELETE FROM department WHERE id = ?";
+            connection.query(query, [departmentId], (error, results) => {
+              if (error) {
+                console.error("Error deleting department:", error);
+              } else {
+                console.log("Department deleted successfully!");
+              }
+              connection.end();
+            });
+          });
+        break;
+      case "Delete a Role":
+        inquirer
+          .prompt([
+            {
+              type: "input",
+              message: "Enter the ID of the role you want to delete:",
+              name: "roleId",
+            },
+          ])
+          .then((answers) => {
+            const roleId = answers.roleId;
+            const query = "DELETE FROM role WHERE id = ?";
+            connection.query(query, [roleId], (error, results) => {
+              if (error) {
+                console.error("Error deleting role:", error);
+              } else {
+                console.log("Role deleted successfully!");
+              }
+              connection.end();
+            });
+          });
+        break;
+      case "Delete an Employee":
+        inquirer
+          .prompt([
+            {
+              type: "input",
+              message: "Enter the ID of the employee you want to delete:",
+              name: "employeeId",
+            },
+          ])
+          .then((answers) => {
+            const employeeId = answers.employeeId;
+            const query = "DELETE FROM employee WHERE id = ?";
+            connection.query(query, [employeeId], (error, results) => {
+              if (error) {
+                console.error("Error deleting employee:", error);
+              } else {
+                console.log("Employee deleted successfully!");
               }
               connection.end();
             });
