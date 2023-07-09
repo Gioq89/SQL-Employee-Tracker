@@ -53,7 +53,7 @@ inquirer
         break;
       case "View All Roles":
         const roleQuery =
-          "SELECT role.id, role.id, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id";
+          "SELECT role.id, title, role.id, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id";
         connection.query(roleQuery, (error, results) => {
           if (error) {
             console.error("Error retrieving departments:", error);
